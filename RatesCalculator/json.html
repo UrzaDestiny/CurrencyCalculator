@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <script>
+        // const http = new XMLHttpRequest();
+        // const url = 'https://free.currencyconverterapi.com/api/v6/currencies';
+        // http.open('GET', url);
+        // http.send();
+        //
+        // http.onreadystatechange=function () {
+        //     if(this.readyState =4 && this.status == 200)
+        //     var ans = JSON.parse(http.responseType);
+        //     console.log(ans);
+        //     console.log('done');
+        // }
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var myObj = JSON.parse(this.responseText);
+                // document.getElementById("demo").innerHTML = myObj.name;
+                console.log(myObj);
+            }
+        };
+        xmlhttp.open("GET", "http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909", true);
+        xmlhttp.send();
+    </script>
+
+</body>
+</html>
