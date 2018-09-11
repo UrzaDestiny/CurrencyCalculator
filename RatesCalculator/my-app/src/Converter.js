@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 
 class Converter extends Component {
     constructor(props){
@@ -6,8 +8,8 @@ class Converter extends Component {
         this.state = {
             convertionAmount: 0,
             convertionResult: 0,
-            currencyList: ['AED', 'USD', 'EUR'],
-            ratesMap: {},
+            currencyList: ['AED', 'USD', 'EUR'], //reduxed
+            ratesMap: {}, //reduxed
             currencyFrom: 'AED',
             currencyTo: 'AED',
         };
@@ -18,6 +20,8 @@ class Converter extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
+                    this.props.onJsonBootList(Object.keys(result.rates));
+                    this.props.onJsonBootMap(result.rates);
                     this.setState({
                         ratesMap: result.rates,
                         currencyList: Object.keys(result.rates),
@@ -53,34 +57,52 @@ class Converter extends Component {
     };
 
   render() {
+      console.log(this.props.ratesMapRedux);
     return (
-        <div>
+        <div className='converter'>
+            <select
+                className='selFrom'
+                onChange={(event)=>this.handleSelectChangeFrom(event)}>
+                {this.props.currencyListRedux.map(currency => <option name={currency} value={currency}>{currency}</option>)}
+            </select>
+
+            <select
+                className='selTo'
+                onChange={(event) => this.handleSelectChangeTo(event)}>
+                {this.props.currencyListRedux.map((currency) => <option>{currency}</option>)}
+            </select>
+
             <input
+                className='ammount'
                 type="number"
                 value={this.state.convertionAmount}
                 onChange={(event) => this.handleInputChange(event)}
             />
 
-            <select
-                onChange={(event)=>this.handleSelectChangeFrom(event)}>
-                {this.state.currencyList.map(currency => <option name={currency} value={currency}>{currency}</option>)}
-            </select>
+            <button className='button' onClick={this.handleClick}>SUBMIT</button><br/>
 
             <input
+                className='res'
                 type="number"
                 readOnly={true}
                 value={this.state.convertionResult}
             />
-
-            <select
-                onChange={(event) => this.handleSelectChangeTo(event)}>
-                {this.state.currencyList.map(currency => <option>{currency}</option>)}
-            </select>
-
-            <button onClick={this.handleClick}>SUBMIT</button>
         </div>
     );
   }
 }
 
-export default Converter;
+export default connect(
+    state => ({
+        ratesMapRedux: state.ratesMapRedux,
+        currencyListRedux: state.currencyListRedux
+        }),
+    dispatch => ({
+        onJsonBootList: (name) => {
+            dispatch({type: 'ADD_CURR_NAME', payload: name})
+        },
+        onJsonBootMap: (name) => {
+            dispatch({type: 'ADD_JSON', payload: name})
+        }
+    })
+)(Converter);
