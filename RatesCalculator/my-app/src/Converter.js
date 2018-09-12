@@ -30,10 +30,14 @@ class Converter extends Component {
     // };
 
     async componentDidMount(){
-        const data = await fetch('http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909');
-        const json = await data.json();
-        this.props.onJsonBootList(Object.keys(json.rates));
-        this.props.onJsonBootMap(json.rates);
+        try {
+            const data = await fetch('http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909');
+            const json = await data.json();
+            this.props.onJsonBootList(Object.keys(json.rates));
+            this.props.onJsonBootMap(json.rates);
+        }catch (err){
+            console.log(err);
+        }
     }
 
     handleClick=()=>{
@@ -64,7 +68,6 @@ class Converter extends Component {
     };
 
   render() {
-      console.log(this.props.ratesMapRedux);
     return (
         <div className='converter'>
             <select
