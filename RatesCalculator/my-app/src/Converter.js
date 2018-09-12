@@ -8,30 +8,37 @@ class Converter extends Component {
         this.state = {
             convertionAmount: 0,
             convertionResult: 0,
-            currencyList: ['AED', 'USD', 'EUR'], //reduxed
-            ratesMap: {}, //reduxed
+            // currencyList: ['AED', 'USD', 'EUR'], //reduxed
+            // ratesMap: {}, //reduxed
             currencyFrom: 'AED',
             currencyTo: 'AED',
         };
     };
 
-    componentWillMount(){
-        fetch('http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909')
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.props.onJsonBootList(Object.keys(result.rates));
-                    this.props.onJsonBootMap(result.rates);
-                    this.setState({
-                        ratesMap: result.rates,
-                        currencyList: Object.keys(result.rates),
-                    })
-                });
-    };
+    // componentWillMount(){
+    //     fetch('http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909')
+    //         .then(res => res.json())
+    //         .then(
+    //             (result) => {
+    //                 this.props.onJsonBootList(Object.keys(result.rates));
+    //                 this.props.onJsonBootMap(result.rates);
+    //                 this.setState({
+    //                     ratesMap: result.rates,
+    //                     currencyList: Object.keys(result.rates),
+    //                 })
+    //             });
+    // };
+
+    async componentDidMount(){
+        const data = await fetch('http://data.fixer.io/api/latest?access_key=416b9d4a8622014b57c02f65f6738909');
+        const json = await data.json();
+        this.props.onJsonBootList(Object.keys(json.rates));
+        this.props.onJsonBootMap(json.rates);
+    }
 
     handleClick=()=>{
-        const from = this.state.ratesMap[this.state.currencyFrom];
-        const to = this.state.ratesMap[this.state.currencyTo];
+        const from = this.props.ratesMapRedux[this.state.currencyFrom];
+        const to = this.props.ratesMapRedux[this.state.currencyTo];
         const res = (1/from)/(1/to)*this.state.convertionAmount;
         this.setState({
             convertionResult: res,
