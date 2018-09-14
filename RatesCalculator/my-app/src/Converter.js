@@ -1,15 +1,27 @@
+//@flow
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
+type State = {
+    convertionAmount: number,
+    convertionResult: number,
+    currencyFrom: string,
+    currencyTo: string
+};
 
-class Converter extends Component {
+type Props = {
+    onJsonBootList: (Array<string>) => void;
+    onJsonBootMap: ({[string]: number}) => void;
+    ratesMapRedux: {[string]: number} => void;
+    currencyListRedux: Array<string>;
+};
+
+class Converter extends Component<Props, State> {
     constructor(props){
         super(props);
         this.state = {
             convertionAmount: 0,
             convertionResult: 0,
-            // currencyList: ['AED', 'USD', 'EUR'], //reduxed
-            // ratesMap: {}, //reduxed
             currencyFrom: 'AED',
             currencyTo: 'AED',
         };

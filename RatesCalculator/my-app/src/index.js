@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -14,5 +15,5 @@ ReactDOM.render(
     <Provider store={store}>
         <Converter />
     </Provider>,
-    document.getElementById('root'));
+    (document.getElementById('root'): any));
 registerServiceWorker();

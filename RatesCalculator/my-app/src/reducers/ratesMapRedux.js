@@ -1,6 +1,9 @@
-const initialState = ['tytytyt', 'tatatata'];
+//@flow
+const initialState = {};
 
-export default function ratesMapRedux(state=initialState, action) {
+type addJson = {type: 'ADD_JSON', payload: {}};
+
+export default function ratesMapRedux(state: {[string]: number}=initialState, action: addJson) {
     if (action.type == 'ADD_JSON'){
         return action.payload
     }
