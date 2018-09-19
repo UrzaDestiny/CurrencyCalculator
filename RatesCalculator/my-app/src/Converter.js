@@ -81,34 +81,39 @@ class Converter extends Component<Props, State> {
 
   render() {
     return (
-        <div className='converter'>
+
+        <div className='converter container d-flex flex-wrap justify-content-center position-absolute w-100 align-items-center align-content-center'>
+                <div className="row ">
+
             <select
-                className='selFrom'
+                className='selFrom col-lg-2 btn btn-success dropdown-toggle'
                 onChange={(event)=>this.handleSelectChangeFrom(event)}>
                 {this.props.currencyListRedux.map(currency => <option name={currency} value={currency}>{currency}</option>)}
             </select>
 
             <select
-                className='selTo'
+                className='selTo col-lg-2 btn btn-success dropdown-toggle'
                 onChange={(event) => this.handleSelectChangeTo(event)}>
                 {this.props.currencyListRedux.map((currency) => <option>{currency}</option>)}
             </select>
 
             <input
-                className='ammount'
+                className='ammount col-lg-3 form-control'
                 type="number"
                 value={this.state.convertionAmount}
                 onChange={(event) => this.handleInputChange(event)}
             />
 
-            <button className='button' onClick={this.handleClick}>SUBMIT</button><br/>
+            <button type='button' className='button col-lg-2 btn btn-success' onClick={this.handleClick}>SUBMIT</button>
 
             <input
-                className='res'
+                className='res col-lg-3 form-control'
                 type="number"
                 readOnly={true}
                 value={this.state.convertionResult}
             />
+
+            </div>
         </div>
     );
   }
